@@ -1,0 +1,104 @@
+/* import google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap');
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background-color: #454545;
+
+}
+
+
+body {
+  font-family: 'Roboto', sans-serif;
+  
+  
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  
+}
+.form_container {
+  width: 100vw;
+  max-width: 800px;
+}
+
+form {
+  background-color: #fff;
+  padding: 30px;
+}
+
+.input_container {
+  position: relative;
+  margin: 20px 0px;
+}
+
+.input_container.ok {
+  color: #00c900;
+}
+
+.input_container.error {
+  color: red;
+}
+
+.input_container label {
+  position: absolute;
+  top: -9px;
+  left: 10px;
+  padding: 0px 3px;
+  background-color: #fff;
+}
+
+.input_container input {
+  display: block;
+  padding: 10px;
+  border: 2px solid #313131;
+  border-radius: 8px;
+  width: 100%;
+  font-family: monospace;
+  color: inherit;
+}
+
+.input_container.ok input {
+  border: 2px solid #00c900;
+}
+
+.input_container.error input {
+  border:2px solid red;
+}
+
+
+.input_container input:focus {
+  outline: none;
+  box-shadow: 2px 2px 5px #cfcfcf;
+}
+
+.input_container i {
+  position: absolute;
+  top: 11px;
+  right: 10px;
+  visibility: hidden;
+}
+
+.input_container.ok i.fa-check-circle {
+  visibility: visible ;
+}
+
+.input_container.error i.fa-exclamation-circle {
+  visibility: visible;
+}
+
+.input_container .error_message {
+  display: none;
+}
+
+.input_container.error .error_message {
+  display: block;
+}
+
