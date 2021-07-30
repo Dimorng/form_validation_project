@@ -3,3 +3,10 @@
 1. perform form validation while typing
 2. send form data to google spreadsheet
 3. reply confirmation email after form submission
+
+Note:
+- event used: 
+    - keyup
+    - change
+    - input
+    - click

@@ -20,7 +20,7 @@ body {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  align-items: center;
+  /* align-items: center; */
   height: 100vh;
   
 }
@@ -39,11 +39,18 @@ form {
   margin: 20px 0px;
 }
 
-.input_container.ok {
+.radio_input_container {
+  margin: -9px 0px 11px 0px;
+}
+
+
+.input_container.ok,
+.radio_input_container.ok {
   color: #00c900;
 }
 
-.input_container.error {
+.input_container.error,
+.radio_input_container.error {
   color: red;
 }
 
@@ -55,26 +62,41 @@ form {
   background-color: #fff;
 }
 
-.input_container input {
+.radio_input_container label {
+  display: block;
+  font-size: .95em;
+  margin-left: 10px;
+}
+
+.radio_input_container input {
+  margin-right: 3px;
+}
+
+.input_container input,
+.input_container select {
   display: block;
   padding: 10px;
   border: 2px solid #313131;
+  background-color: #fff;
   border-radius: 8px;
   width: 100%;
   font-family: monospace;
   color: inherit;
 }
 
-.input_container.ok input {
+.input_container.ok input,
+.input_container.ok select {
   border: 2px solid #00c900;
 }
 
-.input_container.error input {
+.input_container.error input,
+.input_container.error select {
   border:2px solid red;
 }
 
 
-.input_container input:focus {
+.input_container input:focus,
+.input_container select:focus {
   outline: none;
   box-shadow: 2px 2px 5px #cfcfcf;
 }
@@ -86,19 +108,29 @@ form {
   visibility: hidden;
 }
 
-.input_container.ok i.fa-check-circle {
-  visibility: visible ;
-}
-
-.input_container.error i.fa-exclamation-circle {
-  visibility: visible;
-}
-
-.input_container .error_message {
+.radio_input_container i {
   display: none;
 }
 
-.input_container.error .error_message {
+.input_container.ok i.fa-check-circle,
+.input_container.error i.fa-exclamation-circle {
+  visibility: visible ;
+}
+
+.radio_input_container.ok i.fa-check-circle,
+.radio_input_container.error i.fa-exclamation-circle {
+  display: inline;
+}
+
+.input_container .error_message,
+.radio_input_container .error_message {
+  display: none;
+}
+
+.input_container.error .error_message,
+.radio_input_container.error .error_message {
   display: block;
 }
+
+
 
