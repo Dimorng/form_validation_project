@@ -1,57 +1,86 @@
 const form = document.querySelector("form")
-const firstName = form.querySelector("#first_name").focus()
-
-const allFormInputInfo = [
-  {
-    name: "name_title",
-    type: "text",
-    validation: "normalText",
-    require: false,
-    error: "none"
-  },
-  {
-    name: "first_name",
-    type: "text",
-    validation: "normalText",
-    require: true,
-    error: "Please fill out this field."
-  },
-  {
-    name: "last_name",
-    type: "text",
-    validation: "normalText",
-    require: true,
-    error: "Please fill out this field."
-  },
-  {
-    name: "email",
-    type: "text",
-    validation: "email",
-    require: false,
-    error: "none"
-  },
-  {
-    name: "gender",
-    type: "select",
-    require: true,
-    error: "Please choose an option"
-  },
-  {
-    name: "social_media",
-    type: "radio",
-    require: true,
-    error: "Please choose an option"
-  },
-  {
-    name: "currency",
-    type: "checkbox",
-    require: true,
-    error: "Please check at least one option"
-  }
-]
 
 allFormInputInfo.forEach((inputInfo) => {
+  if (
+    inputInfo.require &&
+    (inputInfo.type === "text" || inputInfo.type === "select")
+  ) {
+    const label = form.querySelector(`label[for=${inputInfo.name}]`)
+    const require = document.createElement("span")
+    require.classList.add("require")
+    require.textContent = " *"
+    label.appendChild(require)
+  } else if (inputInfo.require) {
+    const question = form
+      .querySelector(`[name=${inputInfo.name}]`)
+      .closest(".radio_input_container")
+      .querySelector(".question")
+    const require = document.createElement("span")
+    require.classList.add("require")
+    require.textContent = " *"
+    question.appendChild(require)
+  }
   checkValidation(inputInfo)
+})
+
+form.addEventListener("submit", (e) => {
+  e.preventDefault()
+  const errorInput = allFormInputInfo.find((inputInfo) => {
+    return inputInfo.error !== "none"
+  })
+  if (errorInput != null) {
+    if (errorInput.type === "radio" || errorInput.type === "checkbox") {
+      const input = document.querySelector(`[name=${errorInput.name}`)
+      const inputContainer = input.closest(".radio_input_container")
+      window.scrollTo(inputContainer)
+      inputContainer.classList.add("error")
+      inputContainer.querySelector(".error_message").textContent =
+        errorInput.error
+      return
+    }
+    const input = document.querySelector(`[name=${errorInput.name}`)
+    input.focus()
+    const inputParent = input.parentElement
+    const errorDisplayer = inputParent.querySelector(".error_message")
+    errorDisplayer.textContent = errorInput.error
+    inputParent.classList.add("error")
+    return
+  }
+  // get input data
+  const finalData = new FormData()
+  allFormInputInfo.forEach((inputInfo) => {
+    if (inputInfo.type === "text" || inputInfo.type === "select") {
+      const data = form.querySelector(`[name="${inputInfo.name}"]`).value
+      // finalData.append(inputInfo)
+      finalData.append(inputInfo.googleInput, data)
+      return
+    }
+    const data = Array.from(
+      form.querySelectorAll(`input[name="${inputInfo.name}"]`)
+    )
+      .filter((input) => {
+        return input.checked
+      })
+      .map((input) => {
+        return input.value
+      })
+      .reduce((accumulation, data) => {
+        return `${accumulation}, ${data}`
+      })
+    finalData.append(inputInfo.googleInput, data)
+  })
+
+  // send data to google form
+  // find alternative way beside jQuery
+  jQuery.ajax({
+    processData: false,
+    contentType: false,
+    cache: false,
+    type: "POST",
+    url: `https://docs.google.com/forms/u/0/d/e/${googleFormID}/formResponse`,
+    data: finalData,
+    enctype: "multipart/form-data"
+  })
 })
 
 function checkValidation(inputInfo) {
@@ -170,61 +199,14 @@ function validationRespone(inputElement, validationResult, errorMessage) {
   return errorMessage
 }
 
-form.addEventListener("submit", (e) => {
-  e.preventDefault()
-  const errorInput = allFormInputInfo.find((inputInfo) => {
-    return inputInfo.error !== "none"
-  })
-  if (errorInput != null) {
-    if (errorInput.type === "radio" || errorInput.type === "checkbox") {
-      const input = document.querySelector(`[name=${errorInput.name}`)
-      const inputContainer = input.closest(".radio_input_container")
-      window.scrollTo(inputContainer)
-      inputContainer.classList.add("error")
-      inputContainer.querySelector(".error_message").textContent =
-        errorInput.error
-      return
-    }
-    const input = document.querySelector(`[name=${errorInput.name}`)
-    input.focus()
-    const inputParent = input.parentElement
-    const errorDisplayer = inputParent.querySelector(".error_message")
-    errorDisplayer.textContent = errorInput.error
-    inputParent.classList.add("error")
-    return
-  }
-  // get input data
-  const formData = []
-  allFormInputInfo.forEach((inputInfo) => {
-    if (inputInfo.type === "text" || inputInfo.type === "select") {
-      const data = form.querySelector(`[name="${inputInfo.name}"]`)
-      console.log(data.value)
-      return
-    }
-    let data = Array.from(
-      form.querySelectorAll(`input[name="${inputInfo.name}"]`)
-    )
-      .filter((input) => {
-        return input.checked
-      })
-      .map((input) => {
-        return input.value
-      })
-      .reduce((finalData, data) => {
-        return `${finalData}, ${data}`
-      })
-    console.log(data)
-  })
-})
-
 // // test code
 // const check = /abc/.test("defgkd kdksabc")
 // console.log(check)
 
-const validation = document.querySelector("#id")
-validation.addEventListener("invalid", () => {
-  validation.setCustomValidity("hey")
-})
-validation.addEventListener("change", () => {
-  validation.setCustomValidity("")
-})
+// const validation = document.querySelector("#id")
+// validation.addEventListener("invalid", () => {
+//   validation.setCustomValidity("hey")
+// })
+// validation.addEventListener("change", () => {
+//   validation.setCustomValidity("")
+// })

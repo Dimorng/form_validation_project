@@ -24,6 +24,16 @@ body {
   height: 100vh;
   
 }
+
+.require {
+  color: #f00;
+}
+
+.input_container.ok .require,
+.radio_input_container.ok .require {
+  display: none;
+}
+
 .form_container {
   width: 100vw;
   max-width: 800px;
