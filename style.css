@@ -142,5 +142,18 @@ form {
   display: block;
 }
 
+input[type="submit"] {
+  display: block;
+  margin-left: auto;
+  padding: 5px 10px;
+  border: 2px solid black;
+  background-color: black;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+}
 
+input[type="submit"]:hover {
+  opacity: 0.8;
+}
 
